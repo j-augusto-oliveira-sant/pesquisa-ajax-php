@@ -49,6 +49,7 @@ function buscaContato($id){
 
 function tabela(){
     $dadosAtuais = contatosVetor();
+
     //search
     echo '<form class="d-flex" action="">
     <input class="form-control me-2" type="text" placeholder="Pesquise Contato" onkeyup="mostrarContatosSearch(this.value)" 
@@ -69,19 +70,21 @@ function tabela(){
         </tr>
     ";
     $new_id = 0;
-    foreach($dadosAtuais as $row){
-        $tabela .= "
-        <tr name='tr_rows'>
-        <td>{$row["id"]}</td>
-        <td name='td_name'>{$row["nome"]}</td>
-        <td>{$row["numero"]}</td>
-        <td>{$row["email"]}</td>
-        <td>{$row["data"]}</td>
-        <td>{$row["idade"]}</td>
-        <td><a class='btn btn-outline-info' href='./alterar_form.php?id={$row["id"]}'>Alterar</a></td>
-        <td><a class='btn btn-outline-danger' href='?acao=excluir&id={$row["id"]}'>Excluir</a></td>
-        </tr>";
-        $new_id += 1;
+    if  (is_countable($dadosAtuais) && count($dadosAtuais) > 0){
+        foreach($dadosAtuais as $row){
+            $tabela .= "
+            <tr name='tr_rows'>
+            <td>{$row["id"]}</td>
+            <td name='td_name'>{$row["nome"]}</td>
+            <td>{$row["numero"]}</td>
+            <td>{$row["email"]}</td>
+            <td>{$row["data"]}</td>
+            <td>{$row["idade"]}</td>
+            <td><a class='btn btn-outline-info' href='./alterar_form.php?id={$row["id"]}'>Alterar</a></td>
+            <td><a class='btn btn-outline-danger' href='?acao=excluir&id={$row["id"]}'>Excluir</a></td>
+            </tr>";
+            $new_id += 1;
+        }
     }
     $new_id += 1;
     echo "<a href='./alterar_form.php?id={$new_id}' class='btn btn-outline-info'>Criar Novo Contato</a>";
